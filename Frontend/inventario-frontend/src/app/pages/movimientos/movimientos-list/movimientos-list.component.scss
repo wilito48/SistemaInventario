@@ -1,0 +1,33 @@
+.search-field {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 16px;
+}
+.table-container {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+}
+.tipo-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.tiny-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+.entrada {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+.salida {
+  background-color: #ffebee;
+  color: #c62828;
+}

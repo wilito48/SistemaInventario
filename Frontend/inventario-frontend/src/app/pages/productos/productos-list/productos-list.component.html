@@ -1,0 +1,84 @@
+<div class="page-header">
+  <h1>Catálogo de Productos</h1>
+  <button mat-flat-button color="primary" (click)="abrirFormulario()" *ngIf="authService.isAdmin()">
+    <mat-icon>add</mat-icon> Nuevo Producto
+  </button>
+</div>
+
+<div class="card-container">
+  <div class="filters-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar producto</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput (keyup)="aplicarFiltro($event)" placeholder="Ej. Monitor">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="select-field">
+      <mat-label>Filtrar por Categoría</mat-label>
+      <mat-select (selectionChange)="filtrarPorCategoria($event.value)">
+        <mat-option [value]="0">Todas las categorías</mat-option>
+        @for (cat of categorias; track cat.id) {
+          <mat-option [value]="cat.id">{{ cat.nombre }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mat-elevation-z1 table-container">
+    <table mat-table [dataSource]="dataSource" matSort>
+      
+      <ng-container matColumnDef="codigoBarras">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
+        <td mat-cell *matCellDef="let element"> <small>{{element.codigoBarras}}</small> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Producto </th>
+        <td mat-cell *matCellDef="let element"> 
+          <strong>{{element.nombre}}</strong>
+          <div class="subtitle">{{element.categoria?.nombre}}</div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef> Precio (Venta) </th>
+        <td mat-cell *matCellDef="let element"> {{element.precioVenta | currency}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Actual </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span class="stock-badge" [class.chip-baja]="isStockBajo(element)" [class.chip-ok]="!isStockBajo(element)">
+            {{element.stockActual || 0}}
+          </span>
+          @if (isStockBajo(element)) {
+            <mat-icon color="warn" class="warning-icon" title="Stock por debajo del mínimo">warning</mat-icon>
+          }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef class="acciones-header"> Acciones </th>
+        <td mat-cell *matCellDef="let element" class="acciones-cell">
+          <button mat-icon-button color="primary" (click)="abrirFormulario(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminar(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="5" style="text-align: center; padding: 24px;">
+          No se encontraron productos.
+        </td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Seleccionar página"></mat-paginator>
+  </div>
+</div>

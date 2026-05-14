@@ -1,0 +1,38 @@
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.search-field {
+  flex: 1 1 200px;
+}
+.select-field {
+  flex: 1 1 200px;
+}
+.subtitle {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+.table-container {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+}
+.stock-badge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: 500;
+  display: inline-block;
+}
+.warning-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+.acciones-header, .acciones-cell {
+  text-align: right;
+}

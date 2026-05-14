@@ -1,0 +1,14 @@
+.usuario-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 10px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.toggle-container {
+  padding: 8px 0;
+}

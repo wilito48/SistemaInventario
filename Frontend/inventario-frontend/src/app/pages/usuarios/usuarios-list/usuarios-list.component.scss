@@ -1,0 +1,64 @@
+.search-field {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.table-container {
+  border-radius: 8px;
+  /* El overflow se maneja globalmente en styles.scss */
+}
+
+table {
+  width: 100%;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .user-icon {
+    color: #90a4ae;
+  }
+}
+
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: #e3f2fd;
+  color: #1976d2;
+  text-transform: uppercase;
+
+  &.admin-role {
+    background-color: #fce4ec;
+    color: #c2185b;
+  }
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &.active {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+
+  &.inactive {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+}
+
+.acciones-header {
+  text-align: center;
+}
+
+.acciones-cell {
+  text-align: center;
+}
