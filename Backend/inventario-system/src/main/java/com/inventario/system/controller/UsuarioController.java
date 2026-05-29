@@ -17,14 +17,16 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/usuarios")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')") // Solo el ADMIN puede gestionar usuarios
+@PreAuthorize("hasRole('ADMIN')")
 public class UsuarioController {
 
+    // ANTES (OCP y IoC): Acceso directo al repositorio, sin capa de Servicio
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<UsuarioDTO> getAll() {
+        // ANTES (DRY): Conversión manual repetida en cada método
         return usuarioRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -48,6 +50,7 @@ public class UsuarioController {
             return ResponseEntity.badRequest().body("La contraseña es obligatoria para nuevos usuarios");
         }
 
+        // ANTES (SRP): Construcción manual de la entidad dentro del controlador
         Usuario usuario = Usuario.builder()
                 .nombre(dto.getNombre())
                 .username(dto.getUsername())
@@ -67,7 +70,6 @@ public class UsuarioController {
             usuario.setRol(dto.getRol());
             usuario.setEstado(dto.getEstado());
             
-            // Solo actualizamos password si se proporciona uno nuevo
             if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
                 usuario.setPasswordHash(passwordEncoder.encode(dto.getPassword()));
             }
@@ -80,13 +82,12 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         return usuarioRepository.findById(id).map(usuario -> {
-            // No permitimos que un admin se borre a sí mismo (opcional pero recomendado)
-            // Aquí podríamos validar contra el SecurityContext
             usuarioRepository.delete(usuario);
             return ResponseEntity.noContent().build();
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    // ANTES (DRY): Método de conversión manual duplicado en cada controlador
     private UsuarioDTO convertToDTO(Usuario u) {
         return UsuarioDTO.builder()
                 .id(u.getId())
